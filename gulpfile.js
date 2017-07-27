@@ -5,7 +5,8 @@
 const gulp = require('gulp');
 const concat = require('gulp-concat');
 const uglify = require('gulp-uglify');
-//const babel = require('gulp-babel');
+const del = require('del');
+const vinylPaths = require('vinyl-paths');
 
 gulp.task('default', function (callback) {
   callback();
@@ -45,3 +46,13 @@ gulp.task('uglify', function () {
     .pipe(uglify())
     .pipe(gulp.dest('dest'));
 });
+
+/* Очистка dest */
+gulp.task('clean-dest', function() {
+  return gulp
+    .src('dest/*')
+    .pipe(vinylPaths(del));
+});
+
+/* Последовательное выполнение нескольких задач */
+gulp.task('series', ['clean-dest', 'uglify']);

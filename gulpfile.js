@@ -7,6 +7,7 @@ const concat = require('gulp-concat');
 const uglify = require('gulp-uglify');
 const del = require('del');
 const vinylPaths = require('vinyl-paths');
+const babel = require('gulp-babel');
 
 gulp.task('default', function (callback) {
   callback();
@@ -56,3 +57,12 @@ gulp.task('clean-dest', function() {
 
 /* Последовательное выполнение нескольких задач */
 gulp.task('series', ['clean-dest', 'uglify']);
+
+/* Трансформ в es2015 */
+gulp.task('babel', function() {
+  return gulp
+    .src('src/*.js')
+    .pipe(concat('app.js'))
+    .pipe(babel())
+    .pipe(gulp.dest('dest'));
+});
